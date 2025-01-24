@@ -1,13 +1,52 @@
-// const express = require('express')
+/* eslint-disable no-console */
+/**
+ * Updated by trungquandev.com's author on August 17 2023
+ * YouTube: https://youtube.com/@trungquandev
+ * "A bit of fragrance clings to the hand that gives flowers!"
+ */
+
 import express from 'express'
-const app = express()
+import { CONNECT_DB } from './config/mongodb'
+import { env } from './config/environment'
 
-const hostname = `localhost`
-const port = 3000
-app.get(`/`, function (req, res) {
-  res.send(`<h1>Hello Duong<h1>`)
-})
+const START_SERVER = () => {
+  const app = express()
 
-app.listen(port, hostname, () => {
-    console.log(`server is running at ${hostname}:${port}/`)
-})
+  const hostname = env.APP_HOST
+  const port = env.APP_PORT
+
+  app.get('/', (req, res) => {
+    // Test Absolute import mapOrder
+    console.log(`${process.env}`)
+    res.end('<h1>Hello World!</h1><hr>')
+  })
+
+  const server = app.listen(port, hostname, () => {
+    // eslint-disable-next-line no-console
+    console.log(`Hello ${env.AUTHOR}, I am running at ${ hostname }:${ port }/`)
+  })
+  //tìm hiểu và cài WSL để dùng exitHook để ngắt kết nối MongoDB tới backend 
+  // exitHook(() => {
+  //   console.log('Exit app')
+  // })
+  // Đăng ký hook thoát
+  // Lắng nghe tín hiệu thoát để in ra 'Exit app'
+  process.on('SIGINT', () => {
+    console.log('\nExit app');
+    server.close(() => {
+      console.log('HTTP server closed');
+      process.exit(0) // Thoát ứng dụng
+    })
+  })
+}
+
+CONNECT_DB()
+  .then(() => console.log('Connected to MongoDB Cloud Atlas!'))
+  .then(() => START_SERVER())
+  .catch(error => {
+    console.error(error)
+    process.exit(0)
+  })
+
+
+
