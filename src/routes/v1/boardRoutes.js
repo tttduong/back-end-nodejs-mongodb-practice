@@ -8,7 +8,7 @@ Router.route('/')
     res.status(StatusCodes.OK).json('API get list boards')
   })
   .post((req, res) => {
-    res.status(StatusCodes.OK).json('API create new board')
+    res.status(StatusCodes.CREATED).json('API create new board')
   })
 
 export const boardRoutes = Router
