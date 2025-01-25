@@ -20,7 +20,6 @@ const START_SERVER = () => {
   app.use('/v1', APIs_v1)
 
   const server = app.listen(port, hostname, () => {
-    // eslint-disable-next-line no-console
     console.log(`Hello ${env.AUTHOR}, I am running at ${ hostname }:${ port }/`)
   })
   //tìm hiểu và cài WSL để dùng exitHook để ngắt kết nối MongoDB tới backend
