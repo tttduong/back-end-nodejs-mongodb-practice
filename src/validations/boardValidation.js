@@ -29,9 +29,10 @@ const createNew = async (req, res, next) => {
         console.log('request.body: ', req.body)
         //{abortEarly: false}: trường hợp có nhiều lỗi thì trả về tất cả lỗi
         await correctCondition.validateAsync(req.body, { abortEarly: false })
+        //Validate dữ liệu, hợp lệ thì cho request đi tiếp qua controller
         next()
 
-        res.status(StatusCodes.CREATED).json({ message: 'POST from Validation: API Create new board' })
+        // res.status(StatusCodes.CREATED).json({ message: 'POST from Validation: API Create new board' })
     } catch (error) {
         //Không cần console.log vì error đã in ra trong postman
         // console.log(error)
