@@ -4,6 +4,7 @@ import express from 'express'
 import { CONNECT_DB } from './config/mongodb'
 import { env } from './config/environment'
 import { APIs_v1 } from '~/routes/v1'
+import { errorHandlingMiddleware } from '~/middlewares/errorHandlingMiddleware'
 
 const START_SERVER = () => {
   const app = express()
@@ -16,6 +17,9 @@ const START_SERVER = () => {
 
   //Use APIs V1
   app.use('/v1', APIs_v1)
+
+  //Middlewares
+  app.use(errorHandlingMiddleware)
 
   const server = app.listen(port, hostname, () => {
     console.log(`Hello ${env.AUTHOR}, I am running at ${ hostname }:${ port }/`)
